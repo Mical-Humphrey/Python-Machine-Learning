@@ -1,0 +1,35 @@
+# Mical Humphrey, following Coding with Mosh at https://www.youtube.com/watch?v=7eh4d6sabA0 awesome tutorial, something I've wanted to touch for a long time!
+# First time creating machine learning model using Jupyter, Python, sklearn, pandas, and following along with Coding with Mosh
+# sklearn DecisionTreetClassifier model predicts what genre of music a user will like based on age and gender.
+
+# Please go to Mosh's youTube video if you'd like to build this too! He includes the csv file in the description. Kaggle is a great website that has
+# free downloads for large data sets that you can use to play with your models and try them out!
+
+
+# Import data
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+#read data from csv file so we can get some data
+music_data = pd.read_csv('music.csv')
+
+# X will have age and gender only, Y will have genre only. We've separated the data so we can say something like
+# "a person of _ age and _ gender will like _ genre of music." Like X = Y, and the model will find a pattern
+X = music_data.drop(columns=['genre'])
+Y = music_data['genre']
+
+#We use the train_test_split() function to split our X and Y into inputs and outputs, then we reserve 80% of data for training the model, 20% for testing at the end.
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+
+#We create an object called model, which is an instantiation of a DecisionTreeClassifier() Machine Learning algorithm object
+model = DecisionTreeClassifier()
+model.fit(X_train, Y_train)
+predictions = model.predict(X_test)
+
+#This compares model prediction against actual test values to give a percentage of how accurate the model is.
+#not too much data in this file. Larger data sets will make it more accurate
+score = accuracy_score(Y_test, predictions)
+score = score * 100
+score
